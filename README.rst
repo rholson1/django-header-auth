@@ -6,8 +6,14 @@ Header_Auth is a simple Django app that adds support for authentication and auth
 designed to worth with the NetID login service and Manifest group management service at UW-Madison.
 
 
-Quick start
------------
+Installation
+------------
+
+pip install https://bitbucket.org/waismanctc/django-header-auth/get/tip.tar.gz
+
+
+Required Settings
+-----------------
 
 1. Enable the backend::
 
