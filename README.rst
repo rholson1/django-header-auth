@@ -10,11 +10,13 @@ Quick start
 -----------
 
 1. Enable the backend::
+
     AUTHENTICATION_BACKENDS = (
         'header_auth.backends.HeaderAuthBackend',
     )
 
 2. Add the HeaderAuthMiddleware after the AuthenticationMiddleware (add if not present)::
+
     MIDDLEWARE_CLASSES = (
         ...
         'django.contrib.auth.middleware.AuthenticationMiddleware',
