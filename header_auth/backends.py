@@ -1,14 +1,14 @@
 from django.contrib.auth.models import User
 from django.conf import settings
 
-class ShibbolethBackend(object):
-    def authenticate(self, username=None, manifest_groups=None):
-        # Authenticate based on provided Shibboleth attributes
+class HeaderAuthBackend(object):
+    def authenticate(self, username=None, user_groups=None):
+        # Authenticate based on HTTP headers
         
-        attr_staff = settings.SHIBBOLETH_GROUPS['staff']
-        attr_user = settings.SHIBBOLETH_GROUPS['users']
-        is_user = attr_user in manifest_groups
-        is_staff = attr_staff in manifest_groups
+        attr_staff = settings.HEADER_AUTH_GROUPS['staff']
+        attr_user = settings.HEADER_AUTH_GROUPS['users']
+        is_user = attr_user in user_groups
+        is_staff = attr_staff in user_groups
         if is_user or is_staff:
             try:
                 user = User.objects.get(username=username)
