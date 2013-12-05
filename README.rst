@@ -53,6 +53,8 @@ Logging out of the application requires both a logout of the local session and a
 I use a logout view::
 
     from django.contrib.auth import logout
+    from django.conf import settings
+    from django.shortcuts import redirect
 
     def logout_view(http_request):
         logout(http_request)  # log out of local session
