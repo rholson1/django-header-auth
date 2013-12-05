@@ -3,7 +3,7 @@ Header_Auth
 ===========
 
 Header_Auth is a simple Django app that adds support for authentication and authorization via HTTP headers.  It is
-designed to worth with the NetID login service and Manifest group management service at UW-Madison.
+designed to work with the NetID login service and Manifest group management service at UW-Madison.
 
 
 Installation
@@ -45,3 +45,19 @@ Required Settings
     }
 
 
+
+Logging Out
+-----------
+
+Logging out of the application requires both a logout of the local session and a logout of the login server.
+I use a logout view::
+
+    from django.contrib.auth import logout
+
+    def logout_view(http_request):
+        logout(http_request)  # log out of local session
+        return redirect(getattr(settings, 'LOGOUT_URL'))  # log out of login server
+
+where I have defined the LOGOUT_URL setting as::
+
+    LOGOUT_URL = "/Shibboleth.sso/Logout?return=https://login.wisc.edu/logout"
