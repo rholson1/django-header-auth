@@ -63,3 +63,31 @@ I use a logout view::
 where I have defined the LOGOUT_URL setting as::
 
     LOGOUT_URL = "/Shibboleth.sso/Logout?return=https://login.wisc.edu/logout"
+
+
+Authorization Groups
+--------------------
+
+The groups listed in HEADER_AUTH_GROUPS will be created if they do not already exist.  When a user logs in, group
+membership will be set for each group identifier provided in the appropriate HTTP header.  Any other group membership
+relations will be cleared.  Membership in the special group "staff" is used to set values of user.is_staff and
+user.is_superuser.
+
+One way to use group membership to control access to views is using the @user_passes_test decorator::
+
+    @login_required
+    @user_passes_test(lambda u: u.is_staff)
+    def my_view(request):
+        """A sample view that only staff can access."""
+        # ...
+
+Or you could define a test function::
+
+    def is_student(user):
+        """Use with user_passes_test decorator to limit access to authenticated members of 'students' group"""
+        return user.is_authenticated() and user.groups.filter(name='students').exists()
+
+    @user_passes_test(is_student)
+    def student_view(request):
+        """A sample view that only students can access."""
+        # ...

@@ -1,15 +1,21 @@
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from django.conf import settings
 
 class HeaderAuthBackend(object):
     def authenticate(self, username=None, user_groups=None):
         # Authenticate based on HTTP headers
-        
+
+        # Test membership in each group listed in settings.HEADER_AUTH_GROUPS
+        # Membership in the special group "staff" determines values of user.is_staff and user.is_superuser
+
+        # Build list of groups in which the user has membership
+        user_group_names = [g for g in settings.HEADER_AUTH_GROUPS if settings.HEADER_AUTH_GROUPS[g] in user_groups]
+        membership = Group.objects.filter(name__in=user_group_names)
+
         attr_staff = settings.HEADER_AUTH_GROUPS['staff']
-        attr_user = settings.HEADER_AUTH_GROUPS['users']
-        is_user = attr_user in user_groups
         is_staff = attr_staff in user_groups
-        if is_user or is_staff:
+
+        if membership or is_staff:
             try:
                 user = User.objects.get(username=username)
                 # Update staff status in case manifest group membership changed.
@@ -23,6 +29,10 @@ class HeaderAuthBackend(object):
                 user.is_staff = is_staff
                 user.is_superuser = is_staff
                 user.save()
+
+            # Set group membership
+            user.groups = membership
+
             return user
         return None
 
@@ -31,5 +41,3 @@ class HeaderAuthBackend(object):
             return User.objects.get(pk=user_id)
         except User.DoesNotExist:
             return None
-
-                

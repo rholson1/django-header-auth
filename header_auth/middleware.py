@@ -1,5 +1,6 @@
 from django.contrib import auth
 from django.contrib.auth import load_backend
+from django.contrib.auth.models import Group
 from header_auth.backends import HeaderAuthBackend
 from django.core.exceptions import ImproperlyConfigured
 from django.conf import settings
@@ -7,6 +8,12 @@ from django.conf import settings
 
 class HeaderAuthMiddleware(object):
     """ Middleware for providing authentication and authorization based on HTTP headers"""
+
+    def __init__(self):
+        """ Make sure that groups exist for each member of settings.HEADER_AUTH_GROUPS
+        """
+        for group in settings.HEADER_AUTH_GROUPS:
+            Group.objects.get_or_create(name=group)
 
     def process_request(self, request):
         # AuthenticationMiddleware is required so that request.user exists.
