@@ -29,14 +29,21 @@ class HeaderAuthMiddleware(object):
         headers = getattr(settings, 'HEADER_AUTH_MAP', {'user': 'REMOTE_USER', 'groups': 'isMemberOf'})
 
         try:
-            username = request.META[headers['user']]
-            user_groups = request.META[headers['groups']]
+            header_user = headers['user']
+            header_groups = headers['groups']
         except KeyError:
             raise ImproperlyConfigured(
                 "The Django header auth middleware requires "
                 " the definition of the HEADER_AUTH_MAP dictionary"
                 " with keys 'user' and 'groups'. "
             )
+
+        try:
+            username = request.META[header_user]
+            user_groups = request.META[header_groups]
+        except KeyError:
+            # authentication headers are not present; do not authenticate
+            return
 
         # If the user is already authenticated and that user matches the user in the headers, then
         # the correct user is already logged in and we don't need to continue.
