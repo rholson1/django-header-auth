@@ -11,9 +11,11 @@ class HeaderAuthBackend(object):
         # Build list of groups in which the user has membership
         user_group_names = [g for g in settings.HEADER_AUTH_GROUPS if settings.HEADER_AUTH_GROUPS[g] in user_groups]
         membership = Group.objects.filter(name__in=user_group_names)
-
-        attr_staff = settings.HEADER_AUTH_GROUPS['staff']
-        is_staff = attr_staff in user_groups
+        try:
+            attr_staff = settings.HEADER_AUTH_GROUPS['staff']
+            is_staff = attr_staff in user_groups
+        except KeyError:
+            is_staff = False
 
         if membership or is_staff:
             try:
