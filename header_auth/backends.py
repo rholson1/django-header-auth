@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User, Group
 from django.conf import settings
 
+
 class HeaderAuthBackend(object):
     def authenticate(self, username=None, user_groups=None):
         # Authenticate based on HTTP headers

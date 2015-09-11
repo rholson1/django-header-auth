@@ -1,7 +1,5 @@
 from django.contrib import auth
-from django.contrib.auth import load_backend
 from django.contrib.auth.models import Group
-from header_auth.backends import HeaderAuthBackend
 from django.core.exceptions import ImproperlyConfigured
 from django.conf import settings
 
@@ -24,7 +22,6 @@ class HeaderAuthMiddleware(object):
                 " MIDDLEWARE_CLASSES setting to insert"
                 " 'django.contrib.auth.middleware.AuthenticationMiddleware'"
                 " before the HeaderMiddleware class.")
-
 
         headers = getattr(settings, 'HEADER_AUTH_MAP', {'user': 'REMOTE_USER', 'groups': 'isMemberOf'})
 
