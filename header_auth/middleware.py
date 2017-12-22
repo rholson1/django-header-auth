@@ -11,7 +11,7 @@ class HeaderAuthMiddleware(MiddlewareMixin):
     def __init__(self, *args, **kwargs):
         """ Make sure that groups exist for each member of settings.HEADER_AUTH_GROUPS
         """
-        super(HeaderAuthMiddleware, self).__init__(self, *args, **kwargs)
+        super(HeaderAuthMiddleware, self).__init__(*args, **kwargs)
 
         for group in settings.HEADER_AUTH_GROUPS:
             Group.objects.get_or_create(name=group)
