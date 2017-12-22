@@ -9,7 +9,7 @@ os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
 setup(
     name='django-header-auth',
-    version='0.4',
+    version='0.5',
     packages=['header_auth'],
     include_package_data=True,
     install_requires=['django'],

@@ -2,14 +2,17 @@ from django.contrib import auth
 from django.contrib.auth.models import Group
 from django.core.exceptions import ImproperlyConfigured
 from django.conf import settings
+from django.utils.deprecation import MiddlewareMixin
 
 
-class HeaderAuthMiddleware(object):
+class HeaderAuthMiddleware(MiddlewareMixin, object):
     """ Middleware for providing authentication and authorization based on HTTP headers"""
 
-    def __init__(self):
+    def __init__(self, get_response=None):
         """ Make sure that groups exist for each member of settings.HEADER_AUTH_GROUPS
         """
+        super(HeaderAuthMiddleware, self).__init__(self, get_response)
+
         for group in settings.HEADER_AUTH_GROUPS:
             Group.objects.get_or_create(name=group)
 
