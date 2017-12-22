@@ -8,10 +8,10 @@ from django.utils.deprecation import MiddlewareMixin
 class HeaderAuthMiddleware(MiddlewareMixin, object):
     """ Middleware for providing authentication and authorization based on HTTP headers"""
 
-    def __init__(self, get_response=None):
+    def __init__(self, *args, **kwargs):
         """ Make sure that groups exist for each member of settings.HEADER_AUTH_GROUPS
         """
-        super(HeaderAuthMiddleware, self).__init__(self, get_response)
+        super(HeaderAuthMiddleware, self).__init__(self, *args, **kwargs)
 
         for group in settings.HEADER_AUTH_GROUPS:
             Group.objects.get_or_create(name=group)
