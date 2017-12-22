@@ -47,7 +47,7 @@ class HeaderAuthMiddleware(MiddlewareMixin):
 
         # If the user is already authenticated and that user matches the user in the headers, then
         # the correct user is already logged in and we don't need to continue.
-        if request.user.is_authenticated():
+        if request.user.is_authenticated:
             if request.user.get_username() == username:
                 return
 
