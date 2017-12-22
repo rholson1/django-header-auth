@@ -5,7 +5,7 @@ from django.conf import settings
 from django.utils.deprecation import MiddlewareMixin
 
 
-class HeaderAuthMiddleware(MiddlewareMixin, object):
+class HeaderAuthMiddleware(MiddlewareMixin):
     """ Middleware for providing authentication and authorization based on HTTP headers"""
 
     def __init__(self, *args, **kwargs):
