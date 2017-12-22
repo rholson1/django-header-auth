@@ -34,7 +34,7 @@ class HeaderAuthBackend(object):
                 user.save()
 
             # Set group membership
-            user.groups = membership
+            user.groups.set(membership)
 
             return user
         return None
