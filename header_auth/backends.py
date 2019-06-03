@@ -3,7 +3,7 @@ from django.conf import settings
 
 
 class HeaderAuthBackend(object):
-    def authenticate(self, username=None, user_groups=None):
+    def authenticate(self, request, username=None, user_groups=None):
         # Authenticate based on HTTP headers
 
         # Test membership in each group listed in settings.HEADER_AUTH_GROUPS
