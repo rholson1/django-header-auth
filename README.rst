@@ -9,7 +9,7 @@ designed to work with the NetID login service and Manifest group management serv
 Installation
 ------------
 
-pip install https://bitbucket.org/waismanctc/django-header-auth/get/tip.tar.gz
+pip install https://github.com/rholson1/django-header-auth/archive/v0.6.tar.gz
 
 
 Required Settings
